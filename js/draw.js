@@ -1,7 +1,9 @@
-// Make an instance of two and place it on the page.
-var elem = document.getElementById('draw-shapes').children[0];
-var params = { width: 285, height: 200 };
-var two = new Two(params).appendTo(elem);
+var el = document.getElementById("main"),
+    two = new Two({ 
+        fullscreen: true
+    });
+ 
+two.appendTo(el);
 
 // two has convenience methods to create shapes.
 var circle = two.makeCircle(72, 100, 50);
