@@ -1,5 +1,5 @@
 var elem = document.getElementById('draw-animation');
-var two = new Two({ width: 285, height: 200 }).appendTo(elem);
+var two = new Two({ width: 285, height: 225 }).appendTo(elem);
 
 var circle = two.makeCircle(-70, 0, 50);
 var rect = two.makeRectangle(70, 0, 100, 100);
@@ -15,8 +15,8 @@ group.noStroke();
 animation loop. */
 two.bind('update', function(frameCount) {
 	/* Called everytime two.update() is called.
-	   Effectively 60 times per second.
-	   In case you want this to loop:
+	Effectively 60 times per second.
+	In case you want this to loop:
 	if (group.scale > 0.9999) {
 		group.scale = group.rotation = 0;
 	}*/
