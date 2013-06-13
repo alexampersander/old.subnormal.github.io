@@ -1,7 +1,7 @@
 var elem = document.getElementById('draw-animation');
 var two = new Two({ width: 285, height: 250 }).appendTo(elem);
 
-var circle = two.makeCircle(-70, 0, 50);
+var circle = two.makeCircle(-71, 0, 50);
 var rect = two.makeRectangle(70, 0, 100, 100);
 circle.fill = '#FF8000';
 rect.fill = 'rgba(0, 200, 255, 0.75)';

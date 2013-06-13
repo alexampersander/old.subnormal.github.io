@@ -3,14 +3,45 @@
 	position:absolute;
 	font-family: 'Lato', Helvetica, Arial sans-serif;
 	font-weight: 300;
-	font-size: 3em;
+	font-size: 3.25em;
 	color:#1C1C1C;
 	top:212px;
-	z-index: 11;
-
+	z-index: 110;
+	left:24px;
 }
 
 #draw-animation {
+	width:98%;
+	z-index: 100;
+	position: absolute;
+	left:14px;
+}
+
+#headline {
+	background-color: #C4C4C4;
+	z-index: 90;
+	left:0px;
+	top:275px;
+	height:1px;
+	width: 100%;
+	position: absolute;
+}
+
+#headbox {
+	position: absolute;
+	left:0px;
+	height:212px;
+	z-index: -1;
+	width: 100%;
+	background-color: #BDBDBD;
+	top:0px;
+}
+
+#headminibox {
+	position: absolute;
+	left:0px;
+	height:63px;
+	top:212px;
 	width:100%;
-	z-index: 10;
+	background-color: #BDBDBD;
 }
