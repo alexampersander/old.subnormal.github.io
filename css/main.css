@@ -1,13 +1,13 @@
+* {
+	overflow-x: hidden;
+}
 #header {
 	width:97%;
 	font-family: 'Lato', Helvetica, Arial sans-serif;
 	font-weight: 300;
 	font-size: 3.25em;
 	color:#1C1C1C;
-	z-index: 1100;
-	margin-top: 100px;
-	margin-bottom: -9px;
-	float:left;
+	z-index: 11000;
 	margin-left: 25px;
 }
 
@@ -32,7 +32,7 @@
 	left:0px;
 	height:276px;
 	z-index: -1;
-	width: 100%;
+	width: 200%;
 	background-color: #BDBDBD;
 	top:0px;
 }
@@ -40,35 +40,36 @@
 #headminibox {
 	left:-100px;
 	height:63px;
-	margin-top:0px;
 	width:200%;
-	background-color: #BDBDBD;
+	background-color: green;
+	margin-top: -7px;
 }
 
-.sticky {
-	position: -webkit-sticky;
-  	position: -moz-sticky;
-  	position: -ms-sticky;
-  	position: -o-sticky;
-  	position: sticky;
-  	top:0px;
-}
-.sticky2 {
-	position: -webkit-sticky;
-  	position: -moz-sticky;
-  	position: -ms-sticky;
-  	position: -o-sticky;
-  	position: sticky;
-  	top:62px;
-}
 
 body {
 	margin-left: -25px;
+	margin-right: -25px;
+	z-index: -10000;
 }
 
-#daddy {
-	position: absolute;
+#daddy2 {
 	top: 0;
 	left: 0;
 	right: 0;
+	overflow:hidden;
 }
+
+#daddy1 {
+	margin-top: 100px;
+	overflow:hidden;
+}
+
+/*.invisible {
+	visibility: hidden;
+	position: absolute;
+	top: -9999px;
+}
+
+.visible {
+	visibility: visible;
+}*/

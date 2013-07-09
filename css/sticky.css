@@ -1,0 +1,8 @@
+.sticky {
+	position: -webkit-sticky;
+  top:0px;
+}
+.sticky2 {
+	position: -webkit-sticky;
+  top:62px;
+}
