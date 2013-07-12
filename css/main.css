@@ -1,5 +1,6 @@
 * {
 	overflow-x: hidden;
+	font-family: 'Lato', Helvetica, Arial sans-serif;
 }
 #header {
 	width:100%;
@@ -19,15 +20,15 @@
 	position: absolute;
 	left:6px;
 	top:0px;
-	z-index: 122000;
 }
 
 #headline {
 	background-color: #C4C4C4;
 	height:1px;
 	width: 200%;
-	margin-top: 276px;
-	margin-bottom: -227px;
+	margin-top: 338px;
+	margin-bottom: -289px;
+	visibility: hidden;
 }
 
 #headbox {
