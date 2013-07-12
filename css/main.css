@@ -2,21 +2,24 @@
 	overflow-x: hidden;
 }
 #header {
-	width:97%;
+	width:100%;
 	font-family: 'Lato', Helvetica, Arial sans-serif;
 	font-weight: 300;
 	font-size: 3.25em;
 	color:#1C1C1C;
 	z-index: 11000;
-	margin-left: 25px;
+	margin-left: 0px;
+	background-color: #BDBDBD;
+	margin-top:0px;
 }
 
 #draw-animation {
 	width:98%;
 	z-index: 100;
 	position: absolute;
-	left:14px;
+	left:6px;
 	top:0px;
+	z-index: 122000;
 }
 
 #headline {
@@ -30,11 +33,12 @@
 #headbox {
 	position: absolute;
 	left:0px;
-	height:276px;
+	height:340px;
 	z-index: -1;
 	width: 200%;
 	background-color: #BDBDBD;
 	top:0px;
+	margin-top: -65px;
 }
 
 #headminibox {
@@ -43,6 +47,7 @@
 	width:200%;
 	background-color: green;
 	margin-top: -7px;
+	visibility: hidden;
 }
 
 
@@ -64,12 +69,6 @@ body {
 	overflow:hidden;
 }
 
-/*.invisible {
-	visibility: hidden;
-	position: absolute;
-	top: -9999px;
+.fixed {
+	margin-top: 0px;
 }
-
-.visible {
-	visibility: visible;
-}*/
