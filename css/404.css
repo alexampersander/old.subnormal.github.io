@@ -1,0 +1,29 @@
+* {
+	font-family: 'Lato', Helvetica, Arial sans-serif;
+	text-align: center;
+}
+html {
+	background-color: #f39c12;
+}
+
+p {
+	position: absolute;
+	top: 20%;
+	bottom: 0;
+	left: 36.5%;
+	right: 0;
+	margin: auto;
+	color: white;
+	font-weight: 900;
+	font-size: 2em;
+	width: 400px;
+	height: 150px;
+	z-index: 1;
+}
+
+a {
+	margin-top: 30%;
+	position: absolute;
+	z-index: 2;
+	margin-left: -2%;
+}
