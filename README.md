@@ -1,7 +1,7 @@
 Portfolio
 ===================
 
-This is just my test site. Everything goes here. I have no idea what I intend to do, but I need a portfolio eventually. Also, my html is incredibly messy :(
+This is just my test site. Everything goes here. I have no idea what I intend to do, but I need a portfolio eventually. Also, my html is incredibly messy and I apologize to anyone looking at it for whatever reason you might be looking at it. NSA?
 
 ## Todo:
 * Add all of my "skills"
