@@ -1,0 +1,13 @@
+CACHE MANIFEST
+
+# 'Master entries'.
+CACHE:
+/img/favicon.ico
+/index.html
+/css/main.css
+/css/content.css
+/css/bootstrap.min.css
+/js/bootstrap.min.js
+/js/draw.js
+/js/two.min.js
+/js/skrollr.min.js
