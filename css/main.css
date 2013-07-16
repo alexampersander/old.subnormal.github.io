@@ -1,75 +1,66 @@
 * {
-	overflow-x: hidden;
-	font-family: 'Lato', Helvetica, Arial sans-serif;
+    overflow-x: hidden;
+    font-family:'Lato', Helvetica, Arial sans-serif;
 }
 #header {
-	width:100%;
-	font-family: 'Lato', Helvetica, Arial sans-serif;
-	font-weight: 300;
-	font-size: 3.25em;
-	color:#1C1C1C;
-	z-index: 11000;
-	margin-left: 0px;
-	background-color: #BDBDBD;
-	margin-top:0px;
+    width:100%;
+    font-family:'Lato', Helvetica, Arial sans-serif;
+    font-weight: 300;
+    font-size: 3.25em;
+    color:#1C1C1C;
+    z-index: 11000;
+    margin-left: 0px;
+    background-color: #BDBDBD;
+    margin-top:0px;
 }
-
 #draw-animation {
-	width:98%;
-	z-index: 100;
-	position: absolute;
-	left:6px;
-	top:0px;
+    width:98%;
+    z-index: 100;
+    position: absolute;
+    left:10px;
+    top:0px;
 }
-
 #headline {
-	background-color: #C4C4C4;
-	height:1px;
-	width: 200%;
-	margin-top: 338px;
-	margin-bottom: -289px;
-	visibility: hidden;
+    background-color: #C4C4C4;
+    height:1px;
+    width: 200%;
+    margin-top: 338px;
+    margin-bottom: -289px;
+    visibility: hidden;
 }
-
 #headbox {
-	position: absolute;
-	left:0px;
-	height:340px;
-	z-index: -1;
-	width: 200%;
-	background-color: #BDBDBD;
-	top:0px;
-	margin-top: -65px;
+    position: absolute;
+    left:0px;
+    height:340px;
+    z-index: -1;
+    width: 200%;
+    background-color: #BDBDBD;
+    top:0px;
+    margin-top: -65px;
 }
-
 #headminibox {
-	left:-100px;
-	height:63px;
-	width:200%;
-	background-color: green;
-	margin-top: -7px;
-	visibility: hidden;
+    left:-100px;
+    height:63px;
+    width:200%;
+    background-color: green;
+    margin-top: -7px;
+    visibility: hidden;
 }
-
-
 body {
-	margin-left: -25px;
-	margin-right: -25px;
-	z-index: -10000;
+    margin-left: -25px;
+    margin-right: -25px;
+    z-index: -10000;
 }
-
 #daddy2 {
-	top: 0;
-	left: 0;
-	right: 0;
-	overflow:hidden;
+    top: 0;
+    left: 0;
+    right: 0;
+    overflow:hidden;
 }
-
 #daddy1 {
-	margin-top: 100px;
-	overflow:hidden;
+    margin-top: 100px;
+    overflow:hidden;
 }
-
 .fixed {
-	margin-top: 0px;
+    margin-top: 0px;
 }
