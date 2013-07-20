@@ -30,3 +30,7 @@
     float: right;
     margin: 75px 50px 0 0;
 }
+#con {
+    clear: both;
+    margin-top: 350px;
+}
