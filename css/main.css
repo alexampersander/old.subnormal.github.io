@@ -23,7 +23,7 @@
 #headline {
     background-color: #C4C4C4;
     height:1px;
-    width: 200%;
+    width: 100%;
     margin-top: 338px;
     margin-bottom: -289px;
     visibility: hidden;
@@ -33,7 +33,7 @@
     left:0px;
     height:340px;
     z-index: -1;
-    width: 200%;
+    width: 100%;
     background-color: #BDBDBD;
     top:0px;
     margin-top: -65px;
@@ -41,7 +41,7 @@
 #headminibox {
     left:-100px;
     height:63px;
-    width:200%;
+    width:100%;
     background-color: green;
     margin-top: -7px;
     visibility: hidden;
