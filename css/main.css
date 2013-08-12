@@ -64,3 +64,8 @@ body {
 .fixed {
     margin-top: 0px;
 }
+#noscr1 {
+    position:absolute;
+    margin-top:-209px;
+    margin-left:-130px;
+}
