@@ -1099,24 +1099,10 @@ var Backbone = Backbone || {};
   // Regular expression used to split event strings.
   var eventSplitter = /\s+/;
 
-  // Implement fancy features of the Events API such as multiple event
-  // names `"change blur"` and jQuery-style event maps `{change: action}`
-  // in terms of the existing API.
-  var eventsApi = function(obj, action, name, rest) {
-    if (!name) return true;
-    if (typeof name === 'object') {
-      for (var key in name) {
-        obj[action].apply(obj, [key, name[key]].concat(rest));
-      }
-    } else if (eventSplitter.test(name)) {
-      var names = name.split(eventSplitter);
-      for (var i = 0, l = names.length; i < l; i++) {
-        obj[action].apply(obj, [names[i]].concat(rest));
-      }
-    } else {
-      return true;
-    }
-  };
+  /**
+   * Events API deprecated because of additional calls and checks
+   * multiple times a frame tick in two.js
+   */
 
   // Optimized internal dispatch function for triggering events. Tries to
   // keep the usual cases speedy (most Backbone events have 3 arguments).
@@ -1141,7 +1127,7 @@ var Backbone = Backbone || {};
     // to a `callback` function. Passing `"all"` will bind the callback to
     // all events fired.
     on: function(name, callback, context) {
-      if (!(eventsApi(this, 'on', name, [callback, context]) && callback)) return this;
+      // if (!(eventsApi(this, 'on', name, [callback, context]) && callback)) return this;
       this._events || (this._events = {});
       var list = this._events[name] || (this._events[name] = []);
       list.push({callback: callback, context: context, ctx: context || this});
@@ -1151,7 +1137,7 @@ var Backbone = Backbone || {};
     // Bind events to only be triggered a single time. After the first time
     // the callback is invoked, it will be removed.
     once: function(name, callback, context) {
-      if (!(eventsApi(this, 'once', name, [callback, context]) && callback)) return this;
+      // if (!(eventsApi(this, 'once', name, [callback, context]) && callback)) return this;
       var self = this;
       var once = _.once(function() {
         self.off(name, once);
@@ -1168,7 +1154,7 @@ var Backbone = Backbone || {};
     // callbacks for all events.
     off: function(name, callback, context) {
       var list, ev, events, names, i, l, j, k;
-      if (!this._events || !eventsApi(this, 'off', name, [callback, context])) return this;
+      if (!this._events/** || !eventsApi(this, 'off', name, [callback, context])**/) return this;
       if (!name && !callback && !context) {
         this._events = {};
         return this;
@@ -1202,7 +1188,7 @@ var Backbone = Backbone || {};
     trigger: function(name) {
       if (!this._events) return this;
       var args = slice.call(arguments, 1);
-      if (!eventsApi(this, 'trigger', name, args)) return this;
+      // if (!eventsApi(this, 'trigger', name, args)) return this;
       var events = this._events[name];
       var allEvents = this._events.all;
       if (events) triggerEvents(this, events, args);
@@ -1389,6 +1375,8 @@ var Backbone = Backbone || {};
       canvas: 'CanvasRenderer'
     },
 
+    Version: 'v0.2.1',
+
     Properties: {
       hierarchy: 'hierarchy',
       demotion: 'demotion'
@@ -1400,7 +1388,9 @@ var Backbone = Backbone || {};
       update: 'update',
       render: 'render',
       resize: 'resize',
-      change: 'change'
+      change: 'change',
+      remove: 'remove',
+      insert: 'insert'
     },
 
     Resolution: 8,
@@ -1439,6 +1429,25 @@ var Backbone = Backbone || {};
         _.defer(_.bind(function() {
           this.playing = !!b;
         }, this));
+
+      },
+
+      /**
+       * Return the computed matrix of a nested object.
+       */
+      getComputedMatrix: function(object) {
+
+        var matrix = new Two.Matrix();
+        var parent = object;
+
+        while (parent && parent._matrix) {
+          var e = parent._matrix.elements;
+          matrix.multiply(
+            e[0], e[1], e[2], e[3], e[4], e[5], e[6], e[7], e[8], e[9]);
+          parent = parent.parent;
+        }
+
+        return matrix;
 
       },
 
@@ -1536,6 +1545,9 @@ var Backbone = Backbone || {};
         polygon: function(node, open) {
 
           var points = node.points;
+          if (!points) {
+            return;
+          }
           var verts = _.map(_.range(points.numberOfItems), function(i) {
             var p = points.getItem(i);
             return new Two.Vector(p.x, p.y);
@@ -1640,9 +1652,9 @@ var Backbone = Backbone || {};
                     // Calculate reflection control point for proper x2, y2
                     // inclusion.
 
-                    reflection = new Two.Vector().copy(coord).subSelf(control);
+                    reflection = Two.Utils.getReflection(coord, control, relative);
 
-                    x2 = parseFloat(reflection.x), y2 = parseFloat(reflection.y);
+                    x2 = reflection.x, y2 = reflection.y;
                     x3 = parseFloat(coords[0]), y3 = parseFloat(coords[1]);
                     x4 = parseFloat(coords[2]), y4 = parseFloat(coords[3]);
 
@@ -1657,6 +1669,14 @@ var Backbone = Backbone || {};
                   result = Two.Utils.subdivide(x1, y1, x2, y2, x3, y3, x4, y4);
                   coord.set(x4, y4);
                   control.set(x3, y3);
+
+                  var last = result[result.length - 1];
+
+                  // x4 y4 is not present in the curve, add it.
+                  if (last && !last.equals(coord)) {
+                    result.push(coord.clone());
+                  }
+
                   break;
 
                 case 't':
@@ -1676,9 +1696,9 @@ var Backbone = Backbone || {};
 
                   } else {
 
-                    reflection = new Two.Vector().copy(coord).subSelf(control);
+                    reflection = Two.Utils.getReflection(coord, control, relative);
 
-                    x3 = parseFloat(reflection.x), y3 = parseFloat(reflection.y);
+                    x3 = reflection.x, y3 = reflection.y;
                     x4 = parseFloat(coords[0]), y4 = parseFloat(coords[1]);
 
                   }
@@ -1692,6 +1712,14 @@ var Backbone = Backbone || {};
                   result = Two.Utils.subdivide(x1, y1, x2, y2, x3, y3, x4, y4);
                   coord.set(x4, y4);
                   control.set(x3, y3);
+
+                  var last = result[result.length - 1];
+
+                  // x4 y4 is not present in the curve, add it.
+                  if (!last.equals(coord)) {
+                    result.push(coord.clone());
+                  }
+
                   break;
 
                 case 'a':
@@ -1702,16 +1730,18 @@ var Backbone = Backbone || {};
 
             }));
 
-            if (_.isUndefined(points[points.length - 1])) {
-              points.pop();
+            if (points.length <= 1) {
+              return;
             }
+
+            points = _.compact(points);
 
             var poly = new Two.Polygon(points, closed).noStroke();
             return Two.Utils.applySvgAttributes(node, poly);
 
           });
 
-          return polys;
+          return _.compact(polys);
 
         },
 
@@ -2064,6 +2094,23 @@ var Backbone = Backbone || {};
 
       },
 
+      /**
+       * Get the reflection of a point "b" about point "a".
+       */
+      getReflection: function(a, b, relative) {
+
+        var d = a.distanceTo(b);
+        if (d <= 0.0001) {
+          return relative ? new Two.Vector() : a.clone();
+        }
+        var theta = angleBetween(a, b);
+        return new Two.Vector(
+          d * Math.cos(theta) + (relative ? 0 : a.x),
+          d * Math.sin(theta) + (relative ? 0 : a.y)
+        );
+
+      },
+
       angleBetween: function(A, B) {
 
         var dx = A.x - B.x;
@@ -2098,6 +2145,24 @@ var Backbone = Backbone || {};
 
       },
 
+      /**
+       * Array like collection that triggers inserted and removed events 
+       * removed : pop / shift / splice
+       * inserted : push / unshift / splice (with > 2 arguments)
+       */
+
+      Collection: function() {
+
+        Array.call(this);
+
+        if(arguments.length > 1) {
+          Array.prototype.push.apply(this, arguments);
+        } else if( arguments[0] && Array.isArray(arguments[0]) ) {
+          Array.prototype.push.apply(this, arguments[0]);
+        }
+
+      },
+
       // Custom Error Throwing for Two.js
 
       Error: function(message) {
@@ -2105,12 +2170,58 @@ var Backbone = Backbone || {};
         this.message = message;
       }
 
+
+
     }
 
   });
 
   Two.Utils.Error.prototype = new Error();
   Two.Utils.Error.prototype.constructor = Two.Utils.Error;
+
+  Two.Utils.Collection.prototype = new Array();
+  Two.Utils.Collection.constructor = Two.Utils.Collection;
+
+  _.extend(Two.Utils.Collection.prototype, Backbone.Events, {
+
+    pop: function() {
+      var popped = Array.prototype.pop.apply(this, arguments);
+      this.trigger(Two.Events.remove, [popped]);
+      return popped;
+    },
+
+    shift: function() {
+      var shifted = Array.prototype.shift.apply(this, arguments);
+      this.trigger(Two.Events.remove, [shifted]);
+      return shifted;
+    },
+
+    push: function() {
+      var pushed = Array.prototype.push.apply(this, arguments);
+      this.trigger(Two.Events.insert, arguments);
+      return pushed;
+    },
+
+    unshift: function() {
+      var unshifted = Array.prototype.unshift.apply(this, arguments);
+      this.trigger(Two.Events.insert, arguments);
+      return unshifted;
+    },
+
+    splice: function() {
+      var spliced = Array.prototype.splice.apply(this, arguments);
+      var inserted;
+
+      this.trigger(Two.Events.remove, spliced);
+
+      if(arguments.length > 2) {
+        inserted = this.slice(arguments[0], arguments.length-2);
+        this.trigger(Two.Events.insert, inserted);
+      }
+      return spliced;
+    }
+
+  });
 
   // Localize utils
 
@@ -2362,7 +2473,9 @@ var Backbone = Backbone || {};
 
       var last = arguments[l - 1];
       var poly = new Two.Polygon(points, !(_.isBoolean(last) ? last : undefined));
-      poly.center();
+      var rect = poly.getBoundingClientRect();
+      poly.center().translation
+        .set(rect.left + rect.width / 2, rect.top + rect.height / 2);
 
       this.scene.add(poly);
 
@@ -2444,15 +2557,13 @@ var Backbone = Backbone || {};
 
   })();
 
-
   //exports to multiple environments
   if (typeof define === 'function' && define.amd)
-	//AMD
-	define(function(){ return Two; });
+  //AMD
+  define(function(){ return Two; });
   else if (typeof module != "undefined" && module.exports)
-	//Node
-	module.exports = Two;
-
+  //Node
+  module.exports = Two;
 
 })();
 
@@ -2460,32 +2571,32 @@ var Backbone = Backbone || {};
 
   var Vector = Two.Vector = function(x, y) {
 
-    x = x || 0;
-    y = y || 0;
-
-    Object.defineProperty(this, 'x', {
-      get: function() {
-        return x;
-      },
-      set: function(v) {
-        x = v;
-        this.trigger(Two.Events.change, 'x');
-      }
-    });
-
-    Object.defineProperty(this, 'y', {
-      get: function() {
-        return y;
-      },
-      set: function(v) {
-        y = v;
-        this.trigger(Two.Events.change, 'y');
-      }
-    });
+    this.x = x || 0;
+    this.y = y || 0;
 
   };
 
   _.extend(Vector, {
+
+    MakeGetterSetter: function(object, property, value) {
+
+      var secret = '_' + property;
+
+      Object.defineProperty(object, property, {
+
+        get: function() {
+          return this[secret];
+        },
+        set: function(v) {
+          this[secret] = v;
+          this.trigger(Two.Events.change, property);
+        }
+
+      });
+
+      object[secret] = value; // Initialize private attribute.
+
+    }
 
   });
 
@@ -2607,6 +2718,145 @@ var Backbone = Backbone || {};
     }
 
   });
+
+  var BoundProto = {
+
+    set: function(x, y) {
+      this._x = x;
+      this._y = y;
+      return this.trigger(Two.Events.change);
+    },
+
+    copy: function(v) {
+      this._x = v.x;
+      this._y = v.y;
+      return this.trigger(Two.Events.change);
+    },
+
+    clear: function() {
+      this._x = 0;
+      this._y = 0;
+      return this.trigger(Two.Events.change);
+    },
+
+    clone: function() {
+      return new Vector(this._x, this._y);
+    },
+
+    add: function(v1, v2) {
+      this._x = v1.x + v2.x;
+      this._y = v1.y + v2.y;
+      return this.trigger(Two.Events.change);
+    },
+
+    addSelf: function(v) {
+      this._x += v.x;
+      this._y += v.y;
+      return this.trigger(Two.Events.change);
+    },
+
+    sub: function(v1, v2) {
+      this._x = v1.x - v2.x;
+      this._y = v1.y - v2.y;
+      return this.trigger(Two.Events.change);
+    },
+
+    subSelf: function(v) {
+      this._x -= v.x;
+      this._y -= v.y;
+      return this.trigger(Two.Events.change);
+    },
+
+    multiplySelf: function(v) {
+      this._x *= v.x;
+      this._y *= v.y;
+      return this.trigger(Two.Events.change);
+    },
+
+    multiplyScalar: function(s) {
+      this._x *= s;
+      this._y *= s;
+      return this.trigger(Two.Events.change);
+    },
+
+    divideScalar: function(s) {
+      if (s) {
+        this._x /= s;
+        this._y /= s;
+        return this.trigger(Two.Events.change);
+      }
+      return this.clear();
+    },
+
+    negate: function() {
+      return this.multiplyScalar(-1);
+    },
+
+    dot: function(v) {
+      return this._x * v.x + this._y * v.y;
+    },
+
+    lengthSquared: function() {
+      return this._x * this._x + this._y * this._y;
+    },
+
+    length: function() {
+      return Math.sqrt(this.lengthSquared());
+    },
+
+    normalize: function() {
+      return this.divideScalar(this.length());
+    },
+
+    distanceTo: function(v) {
+      return Math.sqrt(this.distanceToSquared(v));
+    },
+
+    distanceToSquared: function(v) {
+      var dx = this._x - v.x, dy = this._y - v.y;
+      return dx * dx + dy * dy;
+    },
+
+    setLength: function(l) {
+      return this.normalize().multiplyScalar(l);
+    },
+
+    equals: function(v) {
+      return (this.distanceTo(v) < 0.0001 /* almost same position */);
+    },
+
+    lerp: function(v, t) {
+      var x = (v.x - this._x) * t + this._x;
+      var y = (v.y - this._y) * t + this._y;
+      return this.set(x, y);
+    },
+
+    isZero: function() {
+      return (this.length() < 0.0001 /* almost zero */ );
+    }
+
+  };
+
+  /**
+   * Override Backbone bind / on in order to add properly broadcasting.
+   * This allows Two.Vector to not broadcast events unless event listeners
+   * are explicity bound to it.
+   */
+
+    Two.Vector.prototype.bind = Two.Vector.prototype.on = function() {
+
+      if (!this._bound) {
+        Two.Vector.MakeGetterSetter(this, 'x', this.x);
+        Two.Vector.MakeGetterSetter(this, 'y', this.y);
+        _.extend(this, BoundProto);
+        this._bound = true; // Reserved for event initialization check
+      }
+
+      Backbone.Events.bind.apply(this, arguments);
+
+      return this;
+
+    };
 
 })();
 (function() {
@@ -2937,15 +3187,15 @@ var Backbone = Backbone || {};
      */
     clone: function() {
 
-      var a = this.elements[0],
-          b = this.elements[1],
-          c = this.elements[2],
-          d = this.elements[3],
-          e = this.elements[4],
-          f = this.elements[5];
-          g = this.elements[6];
-          h = this.elements[7];
-          i = this.elements[8];
+      var a = this.elements[0];
+      var b = this.elements[1];
+      var c = this.elements[2];
+      var d = this.elements[3];
+      var e = this.elements[4];
+      var f = this.elements[5];
+      var g = this.elements[6];
+      var h = this.elements[7];
+      var i = this.elements[8];
 
       return new Two.Matrix(a, b, c, d, e, f, g, h, i);
 
@@ -2954,6 +3204,7 @@ var Backbone = Backbone || {};
   });
 
 })();
+
 (function() {
 
   /**
@@ -2975,7 +3226,7 @@ var Backbone = Backbone || {};
      * Create an svg namespaced element.
      */
     createElement: function(name, attrs) {
-      var tag = name.toLowerCase();
+      var tag = name;
       var elem = document.createElementNS(this.ns, tag);
       if (tag === 'svg') {
         attrs = _.defaults(attrs || {}, {
@@ -3108,7 +3359,9 @@ var Backbone = Backbone || {};
 
   _.extend(Renderer, {
 
-    Identifier: 'two-'
+    Identifier: 'two-',
+
+    Utils: svg
 
   });
 
@@ -3336,6 +3589,7 @@ var Backbone = Backbone || {};
    */
 
   // Localize variables
+  var root = this;
   var getCurveFromPoints = Two.Utils.getCurveFromPoints,
     mod = Two.Utils.mod;
 
@@ -3348,7 +3602,7 @@ var Backbone = Backbone || {};
       this[k] = v;
     }, this);
 
-    this.children = {};
+    this.children = [];
 
   };
 
@@ -3360,10 +3614,12 @@ var Backbone = Backbone || {};
       var id = elem.id;
 
       if (!_.isUndefined(parent)) {
-        delete parent.children[id];
+        parent.removeChild(elem);
+        // delete parent.children[id];
       }
 
-      this.children[id] = elem;
+      // this.children[id] = elem;
+      this.children.push(elem);
       elem.parent = this;
 
       return this;
@@ -3372,9 +3628,13 @@ var Backbone = Backbone || {};
 
     removeChild: function(elem) {
 
-      delete this.children[elem.id];
+      // delete this.children[elem.id];
+      var index = _.indexOf(this.children, elem)
+      if (index < 0) {
+        return this;
+      }
 
-      return this;
+      return this.children.splice(index, 1)[0];
 
     },
 
@@ -3540,6 +3800,25 @@ var Backbone = Backbone || {};
   var canvas = {
 
     /**
+     * Account for high dpi rendering.
+     * http://www.html5rocks.com/en/tutorials/canvas/hidpi/
+     */
+
+    devicePixelRatio: root.devicePixelRatio || 1,
+
+    getBackingStoreRatio: function(ctx) {
+      return ctx.webkitBackingStorePixelRatio ||
+        ctx.mozBackingStorePixelRatio ||
+        ctx.msBackingStorePixelRatio ||
+        ctx.oBackingStorePixelRatio ||
+        ctx.backingStorePixelRatio || 1;
+    },
+
+    getRatio: function(ctx) {
+      return this.devicePixelRatio / this.getBackingStoreRatio(ctx);
+    },
+
+    /**
      * Turn a set of vertices into a string for drawing in a canvas.
      */
     toArray: function(points, curved, closed) {
@@ -3564,6 +3843,7 @@ var Backbone = Backbone || {};
     this.count = 0;
     this.domElement = document.createElement('canvas');
     this.ctx = this.domElement.getContext('2d');
+    this.overdraw = false;
 
     this.elements = [];
 
@@ -3571,12 +3851,6 @@ var Backbone = Backbone || {};
     this.stage = null;
 
   };
-
-  _.extend(Renderer, {
-
-    
-
-  });
 
   _.extend(Renderer, {
 
@@ -3594,14 +3868,19 @@ var Backbone = Backbone || {};
 
   _.extend(Renderer.prototype, Backbone.Events, {
 
-    setSize: function(width, height) {
+    setSize: function(width, height, ratio) {
 
-      this.width = this.domElement.width = width;
-      this.height = this.domElement.height = height;
+      this.width = width;
+      this.height = height;
+
+      this.ratio = _.isUndefined(ratio) ? canvas.getRatio(this.ctx) : ratio;
+
+      this.domElement.width = width * this.ratio;
+      this.domElement.height = height * this.ratio;
 
       _.extend(this.domElement.style, {
-        width: this.width + 'px',
-        height: this.height + 'px'
+        width: width + 'px',
+        height: height + 'px'
       });
 
       return this;
@@ -3718,9 +3997,20 @@ var Backbone = Backbone || {};
       // var rect = this.stage.object.getBoundingClientRect();
       // this.ctx.clearRect(rect.left, rect.top, rect.width, rect.height);
 
-      this.ctx.clearRect(0, 0, this.width, this.height);
+      if (this.ratio !== 1) {
+        this.ctx.save();
+        this.ctx.scale(this.ratio, this.ratio);
+      }
+
+      if (!this.overdraw) {
+        this.ctx.clearRect(0, 0, this.width, this.height);
+      }
 
       this.stage.render(this.ctx);
+
+      if (this.ratio !== 1) {
+        this.ctx.restore();
+      }
 
       return this;
 
@@ -4365,6 +4655,13 @@ var Backbone = Backbone || {};
 
       CanvasRenderer.prototype.setSize.apply(this, arguments);
 
+      /**
+       * TODO: Support for high dpi rendering like /src/renderers/canvas.js
+       */
+      this.ratio = 1;
+      this.domElement.width = width;
+      this.domElement.height = height;
+
       this.ctx.viewport(0, 0, width, height);
 
       var resolutionLocation = this.ctx.getUniformLocation(
@@ -4749,11 +5046,29 @@ var Backbone = Backbone || {};
     },
 
     /**
-     * Anchors all children around the center of the group.
+     * Anchor all children to the upper left hand corner
+     * of the group.
+     */
+    corner: function() {
+
+      var rect = this.getBoundingClientRect(true);
+      var corner = { x: rect.left, y: rect.top };
+
+      _.each(this.children, function(child) {
+        child.translation.subSelf(corner);
+      });
+
+      return this;
+
+    },
+
+    /**
+     * Anchors all children around the center of the group,
+     * effectively placing the shape around the unit circle.
      */
     center: function() {
 
-      var rect = this.getBoundingClientRect();
+      var rect = this.getBoundingClientRect(true);
 
       rect.centroid = {
         x: rect.left + rect.width / 2,
@@ -4764,7 +5079,7 @@ var Backbone = Backbone || {};
         child.translation.subSelf(rect.centroid);
       });
 
-      this.translation.copy(rect.centroid);
+      // this.translation.copy(rect.centroid);
 
       return this;
 
@@ -4794,7 +5109,9 @@ var Backbone = Backbone || {};
       // Add the objects
 
       _.each(objects, function(object) {
-
+        if (!object) {
+          return;
+        }
         var id = object.id, parent = object.parent;
 
         if (_.isUndefined(id)) {
@@ -4855,6 +5172,7 @@ var Backbone = Backbone || {};
         }
 
         delete children[id];
+        delete object.parent;
         object.unbind(Two.Events.change);
 
         ids.push(id);
@@ -4873,15 +5191,17 @@ var Backbone = Backbone || {};
     /**
      * Return an object with top, left, right, bottom, width, and height
      * parameters of the group.
+     *
+     * TODO: Make a shallow and a deep request.
      */
-    getBoundingClientRect: function() {
+    getBoundingClientRect: function(shallow) {
 
       var left = Infinity, right = -Infinity,
         top = Infinity, bottom = -Infinity;
 
       _.each(this.children, function(child) {
 
-        var rect = child.getBoundingClientRect();
+        var rect = child.getBoundingClientRect(true);
 
         if (!top || !left || !right || !bottom) {
           return;
@@ -4894,8 +5214,10 @@ var Backbone = Backbone || {};
 
       }, this);
 
-      var ul = this._matrix.multiply(left, top, 1);
-      var ll = this._matrix.multiply(right, bottom, 1);
+      var matrix = !!shallow ? this._matrix : Two.Utils.getComputedMatrix(this);
+
+      var ul = matrix.multiply(left, top, 1);
+      var ll = matrix.multiply(right, bottom, 1);
 
       return {
         top: ul.y,
@@ -4950,19 +5272,21 @@ var Backbone = Backbone || {};
 
     closed = !!closed;
     curved = !!curved;
-    
+
     var beginning = 0.0;
     var ending = 1.0;
     var strokeChanged = false;
-    var renderedVertices = vertices.slice(0);
+    var verticesChanged = false;
+    var verticesCollection;
+    var renderedVertices = [];
 
     var updateVertices = _.debounce(_.bind(function(property) { // Call only once a frame.
 
       var l, ia, ib, last;
 
-      if (strokeChanged) {
+      if (strokeChanged || verticesChanged) {
 
-        l = this.vertices.length;
+        l = verticesCollection.length;
         last = l - 1;
 
         ia = round((beginning) * last);
@@ -4971,16 +5295,18 @@ var Backbone = Backbone || {};
         renderedVertices.length = 0;
 
         for (var i = ia; i < ib + 1; i++) {
-          var v = this.vertices[i];
-          renderedVertices.push(new Two.Vector(v.x, v.y));
+          var v = verticesCollection[i];
+          renderedVertices.push(v);
         }
 
       }
+
 
       this.trigger(Two.Events.change,
         this.id, 'vertices', renderedVertices, closed, curved, strokeChanged);
 
       strokeChanged = false;
+      verticesChanged = false;
 
     }, this), 0);
 
@@ -5026,17 +5352,57 @@ var Backbone = Backbone || {};
       }
     });
 
-    // At the moment cannot alter the array itself, just it's points.
+    Object.defineProperty(this, 'vertices', {
 
-    this.vertices = vertices.slice(0);
+      get: function() {
+        return verticesCollection;
+      },
 
-    _.each(this.vertices, function(v) {
+      set: function(vertices) {
 
-      v.bind(Two.Events.change, updateVertices);
+        var bindVerts = _.bind(function(items) {
 
-    }, this);
+          _.each(items, function(v) {
+            v.bind(Two.Events.change, updateVertices);
+          }, this);
 
-    updateVertices();
+          verticesChanged = true; // Update rendered Vertices
+          updateVertices();
+
+        }, this);
+
+        var unbindVerts = _.bind(function(items) {
+
+          _.each(items, function(v) {
+            v.unbind(Two.Events.change, updateVertices);
+          }, this);
+
+          verticesChanged = true; // Update rendered Vertices
+          updateVertices();
+
+        }, this);
+
+        // Remove previous listeners
+        if(verticesCollection) {
+          verticesCollection.unbind();
+        }
+
+        // Create new Collection with copy of vertices
+        verticesCollection = new Two.Utils.Collection(vertices.slice(0));
+
+        // Listen for Collection changes and bind / unbind
+        verticesCollection.bind(Two.Events.insert, bindVerts);
+        verticesCollection.bind(Two.Events.remove, unbindVerts);
+
+        // Bind Initial Vertices
+        verticesChanged = true;
+        bindVerts(verticesCollection);
+
+      }
+
+    });
+
+    this.vertices = vertices;
 
   };
 
@@ -5062,9 +5428,30 @@ var Backbone = Backbone || {};
 
     },
 
+    /**
+     * Orient the vertices of the shape to the upper lefthand
+     * corner of the polygon.
+     */
+    corner: function() {
+
+      var rect = this.getBoundingClientRect(true);
+      var corner = { x: rect.left, y: rect.top };
+
+      _.each(this.vertices, function(v) {
+        v.subSelf(corner);
+      });
+
+      return this;
+
+    },
+
+    /**
+     * Orient the vertices of the shape to the center of the
+     * polygon.
+     */
     center: function() {
 
-      var rect = this.getBoundingClientRect();
+      var rect = this.getBoundingClientRect(true);
 
       rect.centroid = {
         x: rect.left + rect.width / 2,
@@ -5075,7 +5462,7 @@ var Backbone = Backbone || {};
         v.subSelf(rect.centroid);
       });
 
-      this.translation.addSelf(rect.centroid);
+      // this.translation.addSelf(rect.centroid);
 
       return this;
 
@@ -5096,7 +5483,10 @@ var Backbone = Backbone || {};
 
     },
 
-    getBoundingClientRect: function() {
+    /**
+     * TODO: Make a shallow and a deep request.
+     */
+    getBoundingClientRect: function(shallow) {
 
       var border = this.linewidth;
       var left = Infinity, right = -Infinity,
@@ -5117,8 +5507,10 @@ var Backbone = Backbone || {};
       right += border;
       bottom += border;
 
-      var ul = this._matrix.multiply(left, top, 1);
-      var ll = this._matrix.multiply(right, bottom, 1);
+      var matrix = !!shallow ? this._matrix : Two.Utils.getComputedMatrix(this);
+
+      var ul = matrix.multiply(left, top, 1);
+      var ll = matrix.multiply(right, bottom, 1);
 
       return {
         top: ul.y,
@@ -5132,5 +5524,6 @@ var Backbone = Backbone || {};
     }
 
   });
+
 
 })();
