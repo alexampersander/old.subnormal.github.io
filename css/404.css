@@ -19,7 +19,7 @@ p {
     height: 150px;
     z-index: 1;
 }
-a {
+#butt {
     margin-top: 30%;
     position: absolute;
     z-index: 2;
