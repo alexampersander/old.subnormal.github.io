@@ -2,22 +2,16 @@
     <head>
         <!DOCTYPE html>
         <title>Login</title>
-        <link rel="stylesheet" href="css/login.css">
+        <link rel="stylesheet" href="css/login.scss">
+        <!--<script src="http://www.parsecdn.com/js/parse-1.2.8.min.js"></script>-->
         <script src="js/main.js"></script>
     </head>
     <body>
-        <form id="form" name="form" action="#" method="post">
-        <div id="block">
-            <label id="user" for="name">p</label>
-            <input type="text" name="name" id="name" placeholder="Username" required/>
-            <label id="pass" for="password">k</label>
-            <input type="password" name="password" id="password" placeholder="Password" required />
-            <input type="submit" id="submit" name="submit" value="a"/>
-        </div>
+        <form class="sign-up">
+            <h1 class="sign-up-title">Sign up in seconds</h1>
+            <input type="text" class="sign-up-input" placeholder="What's your username?" autofocus>
+            <input type="password" class="sign-up-input" placeholder="Choose a password">
+            <input type="submit" value="Sign me up!" class="sign-up-button">
         </form>
-        <div id="option"> 
-            <p>Sign in</p> 
-            <a href="#">forgot?</a>
-        </div>
     </body>
 </html>
