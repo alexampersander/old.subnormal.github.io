@@ -58,6 +58,11 @@ C:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.2.10/vendor/listen/lib/listen/ada
 C:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.2.10/vendor/listen/lib/listen/adapters/polling.rb:32:in `block in start'
 */
 body:before {
-  white-space: pre;
-  font-family: monospace;
-  content: "Syntax error: Undefined mixin 'box-shadow'.\A         on line 23 of login.scss, in `box-shadow'\A         from line 23 of login.scss\A \A 18:   width: 280px;\A 19:   padding: 33px 25px 29px;\A 20:   background: white;\A 21:   border-bottom: 1px solid #c4c4c4;\A 22:   border-radius: 5px;\A 23:   @include box-shadow(0 1px 5px rgba(black, .25));\A 24: \A 25:   &:before, &:after {\A 26:     content: '';\A 27:     position: absolute;\A 28:     bottom: 1px;"; }
+	white-space: pre;
+	font-family: monospace;
+	content: "Syntax error: Undefined mixin 'box-shadow'.\A         on line 23 of login.scss, in `box-shadow'\A         from line 23 of login.scss\A \A 18:   width: 280px;\A 19:   padding: 33px 25px 29px;\A 20:   background: white;\A 21:   border-bottom: 1px solid #c4c4c4;\A 22:   border-radius: 5px;\A 23:   @include box-shadow(0 1px 5px rgba(black, .25));\A 24: \A 25:   &:before, &:after {\A 26:     content: '';\A 27:     position: absolute;\A 28:     bottom: 1px;"; }
+
+noscript {
+	position: absolute;
+	margin-left: 40px;
+}
