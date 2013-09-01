@@ -6,18 +6,18 @@ function validateStuff() {
     var y=document.forms["signup"]["password"].value;
     var y2=document.forms["signup"]["password2"].value;
     if (y.length < 6) {
-        alert("Your password must be at least 6 characters long. Please enter another.");
+        $('#shortpass').removeClass("hidden");
         return false;
-    } else {return true;}
+    }
     if (y != y2) {
-        alert("Password missmatch.");
+        $('#confpass').removeClass("hidden");
         return false;
-    } else {return true;}
+    }
     var x=document.forms["signup"]["email"].value;
     var atpos=x.indexOf("@");
     var dotpos=x.lastIndexOf(".");
     if (atpos<1 || dotpos<atpos+2 || dotpos+2>=x.length) {
-        alert("Not a valid email address.");
+        $('#wrongemail').removeClass("hidden");
         return false;
     } else {return true;}
 }
@@ -27,7 +27,8 @@ function verify() {
     var truth = validateStuff();
     if (truth) {
         register();
-    }
+        return true;
+    } else {return false;}
 }
 
 function register() {

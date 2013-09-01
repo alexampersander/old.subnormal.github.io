@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <!--[if lt IE 7]> <html class="lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
 <!--[if IE 7]> <html class="lt-ie9 lt-ie8" lang="en"> <![endif]-->
 <!--[if IE 8]> <html class="lt-ie9" lang="en"> <![endif]-->
-<!--[if gt IE 8]><!--> <html lang="en"> <!--<![endif]-->
+<!--[if gt IE 8]><!-->  <!--<![endif]-->
 <head>
     <noscript><meta http-equiv="refresh" content="0; url=http://subnormal.github.io/noscript"/></noscript>
     <meta charset="utf-8">
@@ -27,8 +27,10 @@
     <!--[if lt IE 9]><script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
 </head>
 <body>
-    <div class="alert-danger" id="error">Danger!</div>
-    <form name="signup" class="sign-up" onsubmit="verify()">
+    <div class="alert alert-error error hidden" id="shortpass"><p>Your password must be at least 6 characters long. Please try again.</p></div>
+    <div class="alert alert-error error hidden" id="confpass"><p>Your passwords do not match. Please try again.</p></div>
+    <div class="alert alert-error error hidden" id="wrongemail"><p>Your email address is incorrect. Please try again.</p></div>
+    <form id="form" name="signup" class="sign-up" onsubmit="return verify()">
         <h1 class="sign-up-title">Sign up in seconds</h1>
         <input name="username" type="text" id="username" class="sign-up-input" placeholder="What's your username?" autofocus required>
         <input type="password" id="password" class="sign-up-input" placeholder="Choose a password" required>

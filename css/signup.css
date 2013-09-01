@@ -263,6 +263,19 @@ input {
 .alert-block>p,.alert-block>ul{margin-bottom:0;}
 .alert-block p+p{margin-top:5px;}
 
-#error {
-  width: 300px;
+.error {
+  width: 250px;
+  position: absolute;
+  left: 50%;
+  margin-left: -150px;
+  margin-top: 1.75%;
+  z-index: 10;
+}
+
+p {
+  text-align: center;
+}
+
+.hidden {
+  visibility: hidden;
 }
