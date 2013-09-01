@@ -22,20 +22,6 @@ function validateStuff() {
     } else {return true;}
 }
 
-// Verify that validation passed through before registering
-function verify() {
-    var truth = validateStuff();
-    if (truth) {
-        reg = register();
-    } else {return false;}
-}
-
-function redir() {
-    if (reg) {
-        window.location("http://subnormal.github.io");
-    }
-}
-
 function register() {
     // Get the values from login page
     var $username = $("#username"),
@@ -49,6 +35,7 @@ function register() {
         email = $email.val();
 
     var encryptPass = md5(password);
+    alert(encryptPass);
 
     var user = new Parse.User();
     user.set("username", username);
@@ -58,7 +45,7 @@ function register() {
     user.signUp(null, {
         success: function(user) {
             //Login user
-            Parse.User.logIn(username, encryptPass {
+            /*Parse.User.logIn(username, encryptPass {
                 success: function(user) {
                     return true;
                 },
@@ -66,7 +53,8 @@ function register() {
                     alert("Error: " + error.code + " " + error.message);
                     return false;
                 }
-            })
+            });*/
+            console.log("Signed up!");
         },
         error: function(user, error) {
             if (error.code == 202) {
@@ -79,6 +67,13 @@ function register() {
             }
         }
     });
-    
-    reg();
+}
+
+// Verify that validation passed through before registering
+function verify() {
+    var truth = validateStuff();
+    if (truth) {
+        register();
+        return true;
+    } else {return false;}
 }
