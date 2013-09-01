@@ -44,5 +44,9 @@ function register() {
         email = $email.val();
 
     var encryptPass = md5(password);
-    alert(encryptPass);
+
+    var user = new Parse.User();
+    user.set("username", username);
+    user.set("password", encryptPass);
+    user.set("email", email);
 }

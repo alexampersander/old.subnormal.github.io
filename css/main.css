@@ -69,3 +69,9 @@ body {
     margin-top:-209px;
     margin-left:-130px;
 }
+#signup {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    z-index: 101;
+}
