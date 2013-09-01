@@ -2,26 +2,24 @@
     font-family: Helvetica, Arial sans-serif;
     text-align: center;
 }
-html {
+html body {
     background-color: #858585;
 }
 p {
-    position: absolute;
-    top: 20%;
-    bottom: 0;
-    left: 36.5%;
-    right: 0;
-    margin: auto;
     color: white;
     font-weight: 700;
     font-size: 2em;
     width: 400px;
     height: 150px;
-    z-index: 1;
+    line-height: 120%;
 }
 #butt {
-    margin-top: 30%;
+    margin-top: 35%;
+}
+
+.centered {
     position: absolute;
-    z-index: 2;
-    margin-left: -2%;
+    left: 50%;
+    margin-left: -200px;
+    margin-top: 15%;
 }
