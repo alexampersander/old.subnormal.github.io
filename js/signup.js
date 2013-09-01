@@ -26,9 +26,14 @@ function validateStuff() {
 function verify() {
     var truth = validateStuff();
     if (truth) {
-        register();
-        return true;
+        reg = register();
     } else {return false;}
+}
+
+function redir() {
+    if (reg) {
+        window.location("http://subnormal.github.io");
+    }
 }
 
 function register() {
@@ -49,4 +54,31 @@ function register() {
     user.set("username", username);
     user.set("password", encryptPass);
     user.set("email", email);
+
+    user.signUp(null, {
+        success: function(user) {
+            //Login user
+            Parse.User.logIn(username, encryptPass {
+                success: function(user) {
+                    return true;
+                },
+                error: function(user, error) {
+                    alert("Error: " + error.code + " " + error.message);
+                    return false;
+                }
+            })
+        },
+        error: function(user, error) {
+            if (error.code == 202) {
+                $('#taken').removeClass("hidden");
+                return false;
+            }
+            else {
+                alert("Error: " + error.code + " " + error.message);
+                return false;
+            }
+        }
+    });
+    
+    reg();
 }

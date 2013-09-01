@@ -15,7 +15,7 @@
     <script src="http://www.parsecdn.com/js/parse-1.2.8.min.js"></script>
     <script src="js/md5.js"></script>
     <script src="js/signup.js"></script>
-    <!--<script>
+    <script>
         (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
         (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
         m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
@@ -23,13 +23,14 @@
 
         ga('create', 'UA-41777294-1', 'subnormal.github.io');
         ga('send', 'pageview');
-    </script>-->
+    </script>
     <!--[if lt IE 9]><script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
 </head>
 <body>
     <div class="alert alert-error error hidden" id="shortpass"><p>Your password must be at least 6 characters long. Please try again.</p></div>
     <div class="alert alert-error error hidden" id="confpass"><p>Your passwords do not match. Please try again.</p></div>
     <div class="alert alert-error error hidden" id="wrongemail"><p>Your email address is incorrect. Please try again.</p></div>
+    <div class="alert alert-error error hidden" id="taken"><p>Sorry, that username is already taken. Please try again.</p></div>
     <form id="form" name="signup" class="sign-up" onsubmit="return verify()">
         <h1 class="sign-up-title">Sign up in seconds</h1>
         <input name="username" type="text" id="username" class="sign-up-input" placeholder="What's your username?" autofocus required>
