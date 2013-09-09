@@ -12,7 +12,7 @@
     <link rel="stylesheet" href="css/signup.css">
     <link rel="icon" type="image/png" href="img/favicon2.png">
     <script src="http://code.jquery.com/jquery-2.0.3.min.js"></script>
-    <script src="http://www.parsecdn.com/js/parse-1.2.8.min.js"></script>
+    <script src="http://www.parsecdn.com/js/parse-1.2.9.min.js"></script>
     <script src="js/md5.js"></script>
     <script src="js/signup.js"></script>
     <!--<script>
@@ -28,10 +28,11 @@
 </head>
 <body>
     <div class="alert alert-error error hidden" id="shortpass"><p>Your password must be at least 6 characters long. Please try again.</p></div>
+    <div class="alert alert-error error hidden" id="badname"><p>Please enter a username using (A-Z a-z 0-9 . @ _) and between 6 and 30 characters.</p></div>
     <div class="alert alert-error error hidden" id="confpass"><p>Your passwords do not match. Please try again.</p></div>
     <div class="alert alert-error error hidden" id="wrongemail"><p>Your email address is incorrect. Please try again.</p></div>
     <div class="alert alert-error error hidden" id="taken"><p>Sorry, that username is already taken. Please try again.</p></div>
-    <form id="form" name="signup" class="sign-up" onsubmit="return verify()">
+    <form id="form" name="signup" class="sign-up" action="javascript:verify();">
         <h1 class="sign-up-title">Sign up in seconds</h1>
         <input name="username" type="text" id="username" class="sign-up-input" placeholder="What's your username?" autofocus required>
         <input type="password" id="password" class="sign-up-input" placeholder="Choose a password" required>
