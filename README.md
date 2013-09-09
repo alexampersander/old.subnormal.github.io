@@ -8,11 +8,12 @@ This is just my test site. Everything goes here. I have no idea what I intend to
 * Expand out from just the index page
 * Add some examples of my work
 * Incorporate Flat UI / Flatstrap / Square UI
-* Incorporate Parse
+* ~~Incorporate Parse~~
 * Replace animation with something I _actually created_
+* With Parse, finish building a user system
 
 ## Goals:
 * Have fun with this project!
 * Stare in awe at the vibrant colors of Flat UI
-* Be productive this summer
+* ~~Be productive this summer~~
 * Drive, I guess!
