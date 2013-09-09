@@ -1,7 +1,6 @@
 // Intializing Parse
 Parse.initialize("Rct4o5JxkkksTyCOiJVutTNqJelNFxSvXlpI8f47", "uShtb5i3wDsVnLYYXHS7UdE86thIAmrwVQLHzQGn");
 
-var zindex = 100;
 // Validates that all entered information is correct
 function validateStuff() {
     var userRegex = /^[\w\.@]{6,30}$/;
