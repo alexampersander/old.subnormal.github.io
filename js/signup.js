@@ -44,12 +44,10 @@ function register() {
     // Get the values from login page
     var $username = $("#username"),
         $password = $("#password"),
-        $password2 = $("#password2"),
         $email = $("#email");
 
     var username = $username.val(),
         password = $password.val(),
-        password2 = $password.val(),
         email = $email.val();
 
     var lowered = username.toLowerCase();
