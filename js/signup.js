@@ -59,6 +59,7 @@ function register() {
     user.set("username", lowered);
     user.set("preferredname", username);
     user.set("password", encryptPass);
+    user.set("password2", encryptPass);
     user.set("email", email);
 
     user.signUp(null, {
