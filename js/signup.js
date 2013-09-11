@@ -51,13 +51,16 @@ function register() {
         email = $email.val();
 
     var lowered = username.toLowerCase();
-    var encryptPass = md5(password);
+    var hash = CryptoJS.enc.Hex.stringify(CryptoJS.SHA3(password));
+    var salt = CryptoJS.enc.Hex.stringify(CryptoJS.lib.WordArray.random(128/8));
+    var encryptPass = (hash + salt);
 
     var user = new Parse.User();
     user.set("username", lowered);
     user.set("preferredname", username);
     user.set("password", encryptPass);
     user.set("password2", encryptPass);
+    user.set("salt", salt);
     user.set("email", email);
 
     user.signUp(null, {
