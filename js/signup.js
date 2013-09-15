@@ -65,16 +65,7 @@ function register() {
 
     user.signUp(null, {
         success: function(user) {
-            //Login user
-            /*user.logIn(lowered, encryptPass {
-                success: function(user) {
-                    return true;
-                },
-                error: function(user, error) {
-                    alert("Error: " + error.code + " " + error.message);
-                    return false;
-                }
-            });*/
+            window.location("http://subnormal.github.io/login.html");
             return true;
         },
         error: function(user, error) {
@@ -82,8 +73,16 @@ function register() {
                 $('#taken').removeClass("hidden");
                 return false;
             }
+            else if (error.code == 203) {
+                $('#takenemail').removeClass("hidden");
+                return false;
+            }
+            else if (error.code == 125) {
+                $('#bademail').removeClass("hidden");
+                return false;
+            }
             else {
-                alert("Error: " + error.code + " " + error.message);
+                alert("Something weird just happened. Error: " + error.code + " " + error.message);
                 return false;
             }
         }

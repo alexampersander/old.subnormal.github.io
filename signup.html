@@ -32,12 +32,14 @@
     <div class="alert alert-error error hidden" id="confpass"><p>Your passwords do not match. Please try again.</p></div>
     <div class="alert alert-error error hidden" id="wrongemail"><p>Your email address is incorrect. Please try again.</p></div>
     <div class="alert alert-error error hidden" id="taken"><p>Sorry, that username is already taken. Please try again.</p></div>
+    <div class="alert alert-error error hidden" id="takenemail"><p>That email is already registered. Please try again.</p></div>
+    <div class="alert alert-error error hidden" id="bademail"><p>That email is invalid. Please try again.</p></div>
     <form id="form" name="signup" class="sign-up" action="javascript:verify();">
         <h1 class="sign-up-title">Sign up in seconds</h1>
         <input name="username" type="text" id="username" class="sign-up-input" placeholder="What's your username?" autofocus required>
         <input type="password" id="password" class="sign-up-input" placeholder="Choose a password" required>
         <input type="password" id="password2" class="sign-up-input" placeholder="Confirm password" required>
-        <input type="text" name="email" id="email" class="sign-up-input" placeholder="Email address" required>
+        <input type="text" name="email" id="email" class="sign-up-input" placeholder="Email address (optional)">
         <input type="submit" value="Sign me up!" class="sign-up-button">
     </form>
 </body>
