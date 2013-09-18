@@ -3,7 +3,7 @@ Parse.initialize("Rct4o5JxkkksTyCOiJVutTNqJelNFxSvXlpI8f47", "uShtb5i3wDsVnLYYXH
 function initlogin(lowered, hasalt) {
 	Parse.User.logIn(lowered, hasalt, {
 		success: function(user) {
-			alert("Success!");
+			window.location("http://subnormal.github.io/");
 			return true;
 		},
 		error: function(user, error) {
@@ -27,19 +27,31 @@ function login() {
 		query.equalTo("username", lowered);
 
 	function getresult(results, lowered, hasalt) {
-		alert("Received user: " + results.length);
+		if (!results.length) {
+			$('#badpass').addClass("hidden");
+			$('#badname').removeClass("hidden");
+			return false;
+		}
 		console.log(results);
 		var salt = results[0].attributes['salt'],
-			hasalt = hash + salt;
-		initlogin(lowered, hasalt);
-		return hasalt;
+			hasalt = hash + salt,
+			pass = results[0].attributes['password2'];
+		// Checks to see if passwords match. If not, displays error message.
+		if (pass === hasalt) {
+			initlogin(lowered, hasalt);
+			return true;
+		} else {
+			$('#badname').addClass("hidden");
+			$('#badpass').removeClass("hidden");
+			return false;
+		}
 	}
 
 	query.find({
 		success: function(results) {getresult(results, lowered);},
 
 		error: function(error) {
-			alert("Something just went badly. Error: " + error.code + ".");
+			alert("Something just went wrong. Error: " + error.code + ".");
 			return false;
 		}
 	});
