@@ -32,11 +32,15 @@ function validateStuff() {
     var atpos=x.indexOf("@");
     var dotpos=x.lastIndexOf(".");
     if (atpos<1 || dotpos<atpos+2 || dotpos+2>=x.length) {
-        $('#wrongemail').removeClass("hidden");
-        $('#badname').addClass("hidden");
-        $('#shortpass').addClass("hidden");
-        $('#confpass').addClass("hidden");
-        return false;
+        if (x === "") {
+            return true;
+        } else {
+            $('#wrongemail').removeClass("hidden");
+            $('#badname').addClass("hidden");
+            $('#shortpass').addClass("hidden");
+            $('#confpass').addClass("hidden");
+            return false;
+        }
     } else {return true;}
 }
 
@@ -44,18 +48,18 @@ function register() {
     // Get the values from login page
     var $username = $("#username"),
         $password = $("#password"),
-        $email = $("#email");
+        $email = $("#email"),
 
-    var username = $username.val(),
+        username = $username.val(),
         password = $password.val(),
-        email = $email.val();
+        email = $email.val(),
 
-    var lowered = username.toLowerCase();
-    var hash = CryptoJS.enc.Hex.stringify(CryptoJS.SHA3(password));
-    var salt = CryptoJS.enc.Hex.stringify(CryptoJS.lib.WordArray.random(128/8));
-    var encryptPass = (hash + salt);
+        lowered = username.toLowerCase(),
+        hash = CryptoJS.enc.Hex.stringify(CryptoJS.SHA3(password)),
+        salt = CryptoJS.enc.Hex.stringify(CryptoJS.lib.WordArray.random(128/8)),
+        encryptPass = (hash + salt),
 
-    var user = new Parse.User();
+        user = new Parse.User();
     user.set("username", lowered);
     user.set("preferredname", username);
     user.set("password", encryptPass);

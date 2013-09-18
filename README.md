@@ -12,6 +12,7 @@ This is just my test site. Everything goes here. I have no idea what I intend to
 * Replace animation with something I _actually created_
 * With Parse, finish building a user system
 * Incorporate favico.js for notifications!
+* Get the login system working fully, more things for people logged in.
 
 ## Goals:
 * Have fun with this project!
