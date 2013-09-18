@@ -3,7 +3,7 @@ Parse.initialize("Rct4o5JxkkksTyCOiJVutTNqJelNFxSvXlpI8f47", "uShtb5i3wDsVnLYYXH
 function initlogin(lowered, hasalt) {
 	Parse.User.logIn(lowered, hasalt, {
 		success: function(user) {
-			window.location("http://subnormal.github.io/");
+			window.location.assign("http://subnormal.github.io/");
 			return true;
 		},
 		error: function(user, error) {

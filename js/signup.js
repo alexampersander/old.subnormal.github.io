@@ -69,7 +69,7 @@ function register() {
 
     user.signUp(null, {
         success: function(user) {
-            window.location("http://subnormal.github.io/login.html");
+            window.location.assign("http://subnormal.github.io/login.html");
             return true;
         },
         error: function(user, error) {
