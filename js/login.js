@@ -7,15 +7,22 @@ function initlogin(lowered, hasalt) {
 			return true;
 		},
 		error: function(user, error) {
-			$('#loadhide').addClass("hidden");
+			$('#a').removeAttr("style");
+			$('#b').removeAttr("style");
+			$('#c').removeAttr("style");
+			$('#d').removeAttr("style");
 			alert("Something weird just happened. Error: " + error.code + " " + error.message);
 			return false;
 		}
 	})
 }
 function login() {
+	//Starts the css loading animation
+	$('#a').css({"animation":"loading1 3s infinite", "-webkit-animation":"loading1 3s infinite"});
+	$('#b').css({"animation":"loading2 3s infinite", "-webkit-animation":"loading2 3s infinite"});
+	$('#c').css({"animation":"loading3 3s infinite", "-webkit-animation":"loading3 3s infinite"});
+	$('#d').css({"animation":"loading4 3s infinite", "-webkit-animation":"loading4 3s infinite"});
 
-	$('#loadhide').removeClass("hidden");
 	//Get the login values
 	var $username = $('#username'),
 		$password = $('#password'),
@@ -30,7 +37,10 @@ function login() {
 
 	function getresult(results, lowered, hasalt) {
 		if (!results.length) {
-			$('#loadhide').addClass("hidden");
+			$('#a').removeAttr("style");
+			$('#b').removeAttr("style");
+			$('#c').removeAttr("style");
+			$('#d').removeAttr("style");
 			$('#badpass').addClass("hidden");
 			$('#badname').removeClass("hidden");
 			return false;
@@ -44,7 +54,10 @@ function login() {
 			initlogin(lowered, hasalt);
 			return true;
 		} else {
-			$('#loadhide').addClass("hidden");
+			$('#a').removeAttr("style");
+			$('#b').removeAttr("style");
+			$('#c').removeAttr("style");
+			$('#d').removeAttr("style");
 			$('#badname').addClass("hidden");
 			$('#badpass').removeClass("hidden");
 			return false;
@@ -55,7 +68,10 @@ function login() {
 		success: function(results) {getresult(results, lowered);},
 
 		error: function(error) {
-			$('#loadhide').addClass("hidden");
+			$('#a').removeAttr("style");
+			$('#b').removeAttr("style");
+			$('#c').removeAttr("style");
+			$('#d').removeAttr("style");
 			alert("Something just went wrong. Error: " + error.code + ".");
 			return false;
 		}

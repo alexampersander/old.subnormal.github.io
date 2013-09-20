@@ -288,8 +288,7 @@ p {
   position: absolute;
   background: #455668;
   border-radius: 50%;
-  animation:loading1 3s infinite;
-  -webkit-animation:loading1 3s infinite;
+  opacity: 0;
 }
 
 #b {
@@ -300,8 +299,7 @@ p {
   position: absolute;
   background: #455668;
   border-radius: 50%;
-  animation:loading2 3s infinite;
-  -webkit-animation:loading2 3s infinite;
+  opacity: 0;
 }
 
 #c {
@@ -312,8 +310,7 @@ p {
   position: absolute;
   background: #455668;
   border-radius: 50%;
-  animation:loading3 3s infinite;
-  -webkit-animation:loading3 3s infinite;
+  opacity: 0;
 }
 
 #d {
@@ -324,8 +321,7 @@ p {
   position: absolute;
   background: #455668;
   border-radius: 50%;
-  animation:loading4 3s infinite;
-  -webkit-animation:loading4 3s infinite;
+  opacity: 0;
 }
 
 @keyframes loading1
@@ -340,7 +336,7 @@ p {
 {
   0% {opacity: 0;}
   55% {opacity: 1;}
-  65% {opacity: 0;}
+  70% {opacity: 0;}
   100% {opacity: 0;}
 }
 
@@ -355,7 +351,7 @@ p {
 {
   0% {opacity: 0;}
   35% {opacity: 1;}
-  45% {opacity: 0;}
+  50% {opacity: 0;}
   100% {opacity: 0;}
 }
 
@@ -370,7 +366,7 @@ p {
 {
   0% {opacity: 0;}
   75% {opacity: 1;}
-  85% {opacity: 0;}
+  90% {opacity: 0;}
   100% {opacity: 0;}
 }
 
