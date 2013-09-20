@@ -279,3 +279,113 @@ p {
 .hidden {
   visibility: hidden;
 }
+
+#a {
+  width: 12px;
+  height: 12px;
+  left: 48.5%;
+  right: 51.5%;
+  position: absolute;
+  background: #455668;
+  border-radius: 50%;
+  animation:loading1 3s infinite;
+  -webkit-animation:loading1 3s infinite;
+}
+
+#b {
+  width: 12px;
+  height: 12px;
+  left: 46.5%;
+  right: 53.5%;
+  position: absolute;
+  background: #455668;
+  border-radius: 50%;
+  animation:loading2 3s infinite;
+  -webkit-animation:loading2 3s infinite;
+}
+
+#c {
+  width: 12px;
+  height: 12px;
+  left: 50.5%;
+  right: 49.5%;
+  position: absolute;
+  background: #455668;
+  border-radius: 50%;
+  animation:loading3 3s infinite;
+  -webkit-animation:loading3 3s infinite;
+}
+
+#d {
+  width: 12px;
+  height: 12px;
+  left: 52.5%;
+  right: 47.5%;
+  position: absolute;
+  background: #455668;
+  border-radius: 50%;
+  animation:loading4 3s infinite;
+  -webkit-animation:loading4 3s infinite;
+}
+
+@keyframes loading1
+{
+  0% {opacity: 0;}
+  35% {opacity: 1;}
+  40% {opacity: 1;}
+  45% {opacity: 0;}
+}
+
+@-webkit-keyframes loading1 /* Chrome and Safari */
+{
+  0% {opacity: 0;}
+  55% {opacity: 1;}
+  65% {opacity: 0;}
+  100% {opacity: 0;}
+}
+
+@keyframes loading2
+{
+  0% {opacity: 0;}
+  30% {opacity: 1;}
+  40% {opacity: 0;}
+}
+
+@-webkit-keyframes loading2 /* Chrome and Safari */
+{
+  0% {opacity: 0;}
+  35% {opacity: 1;}
+  45% {opacity: 0;}
+  100% {opacity: 0;}
+}
+
+@keyframes loading3
+{
+  0% {opacity: 0;}
+  40% {opacity: 1;}
+  50% {opacity: 0;}
+}
+
+@-webkit-keyframes loading3 /* Chrome and Safari */
+{
+  0% {opacity: 0;}
+  75% {opacity: 1;}
+  85% {opacity: 0;}
+  100% {opacity: 0;}
+}
+
+@keyframes loading4
+{
+  0% {opacity: 0;}
+  45% {opacity: 1;}
+  50% {opacity: 1;}
+  55% {opacity: 0;}
+}
+
+@-webkit-keyframes loading4 /* Chrome and Safari */
+{
+  0% {opacity: 0;}
+  95% {opacity: 1;}
+  100% {opacity: 0;}
+  100% {opacity: 0;}
+}

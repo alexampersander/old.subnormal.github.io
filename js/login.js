@@ -7,6 +7,7 @@ function initlogin(lowered, hasalt) {
 			return true;
 		},
 		error: function(user, error) {
+			$('#loadhide').addClass("hidden");
 			alert("Something weird just happened. Error: " + error.code + " " + error.message);
 			return false;
 		}
@@ -14,6 +15,7 @@ function initlogin(lowered, hasalt) {
 }
 function login() {
 
+	$('#loadhide').removeClass("hidden");
 	//Get the login values
 	var $username = $('#username'),
 		$password = $('#password'),
@@ -28,6 +30,7 @@ function login() {
 
 	function getresult(results, lowered, hasalt) {
 		if (!results.length) {
+			$('#loadhide').addClass("hidden");
 			$('#badpass').addClass("hidden");
 			$('#badname').removeClass("hidden");
 			return false;
@@ -41,6 +44,7 @@ function login() {
 			initlogin(lowered, hasalt);
 			return true;
 		} else {
+			$('#loadhide').addClass("hidden");
 			$('#badname').addClass("hidden");
 			$('#badpass').removeClass("hidden");
 			return false;
@@ -51,6 +55,7 @@ function login() {
 		success: function(results) {getresult(results, lowered);},
 
 		error: function(error) {
+			$('#loadhide').addClass("hidden");
 			alert("Something just went wrong. Error: " + error.code + ".");
 			return false;
 		}
