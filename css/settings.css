@@ -1,0 +1,46 @@
+.span8 {
+	padding-left: 40px;
+	height: 590px;
+	background-color: white;
+}
+
+.labels {
+	display: inline;
+	padding-right: 15px;
+}
+
+.asshat {
+	margin-top: 40px;
+}
+
+.btn {
+	margin-top: 40px;
+	margin-left: 131px;
+}
+
+#foo {
+	margin-left: 48px;
+}
+
+#moving {
+	position: absolute;
+	margin-top: -3px;
+	margin-left: 2px;
+}
+
+.chex {
+	position: absolute;
+	margin-left: 115px;
+	margin-top: 10px;
+	z-index: 1;
+}
+
+.others {
+	position: absolute;
+	margin-left: 113px;
+	margin-top: 14px;
+}
+
+#push {
+	margin-top: 33px;
+}
