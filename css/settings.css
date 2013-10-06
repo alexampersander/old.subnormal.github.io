@@ -1,12 +1,13 @@
 .span8 {
 	padding-left: 40px;
-	height: 590px;
 	background-color: white;
+	height: 500px;
 }
 
 .labels {
 	display: inline;
 	padding-right: 15px;
+	cursor: default;
 }
 
 .asshat {
@@ -43,4 +44,8 @@
 
 #push {
 	margin-top: 33px;
+}
+
+body {
+	background-color: #596778 !important;
 }
