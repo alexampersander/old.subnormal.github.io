@@ -49,3 +49,22 @@
 body {
 	background-color: #596778 !important;
 }
+
+#unverified {
+	position: absolute;
+	margin-left: 320px;
+	margin-top: -25px;
+	color: red;
+}
+
+.alert {
+	position: absolute;
+	margin-top: -88px;
+	margin-left: 260px;
+	width: 230px;
+	height: 20px;
+}
+
+p {
+	white-space: nowrap;
+}

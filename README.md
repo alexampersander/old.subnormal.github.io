@@ -5,14 +5,16 @@ This is just my test site. Everything goes here. I have no idea what I intend to
 
 ## Todo:
 * Add all of my "skills"
-* Expand out from just the index page
+* ~~Expand out from just the index page~~
 * Add some examples of my work
 * Incorporate Flat UI / Flatstrap / Square UI
 * ~~Incorporate Parse~~
 * Replace animation with something I _actually created_
-* With Parse, finish building a user system
+* ~~With Parse, finish building a user system~~
 * Incorporate favico.js for notifications!
 * Get the login system working fully, more things for people logged in.
+* ~~Get email verification working correctly. As of now, if people change their emails, there is no easy way to verify. They would have to verify using their old email. If they hadn't entered an email before, then they can't verify at all.~~
+* Build a profile page for logged in users. Allow access of profile page by other users. Not sure how this will work yet...
 
 ## Goals:
 * Have fun with this project!

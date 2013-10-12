@@ -65,7 +65,9 @@ function register() {
     user.set("password", encryptPass);
     user.set("password2", encryptPass);
     user.set("salt", salt);
-    user.set("email", email);
+    if (email != "") {
+        user.set("email", email);
+    }
 
     user.signUp(null, {
         success: function(user) {
