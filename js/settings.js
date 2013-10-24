@@ -54,10 +54,10 @@ function save() {
             Parse.User.logOut();
             Parse.User.logIn(loweredName, Pass, {
                 success: function(user) {
-                    //Do something
+                    // Do something
                 },
                 error: function(user) {
-                    //Failed twice. This is bad.
+                    // Failed twice. This is bad.
                 }
             });
 		}

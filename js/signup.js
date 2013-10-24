@@ -46,13 +46,9 @@ function validateStuff() {
 
 function register() {
     // Get the values from login page
-    var $username = $("#username"),
-        $password = $("#password"),
-        $email = $("#email"),
-
-        username = $username.val(),
-        password = $password.val(),
-        email = $email.val(),
+    var username = $("#username").val(),
+        password = $("#password").val(),
+        email = $("#email").val(),
 
         lowered = username.toLowerCase(),
         hash = CryptoJS.enc.Hex.stringify(CryptoJS.SHA3(password)),
